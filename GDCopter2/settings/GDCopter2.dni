@@ -34,7 +34,7 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=-771027759
+Checksum=1391197117
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -45,9 +45,7 @@ MixedMode=1
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Bp0=_ 0 "EMUL_CODE" "{C:\WINDOWS\System32}.148.1" 0 0 1 "" 0 "" 0
-Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\src\main.c}.38.3" 0 0 1 "" 0 "" 0
-Count=2
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -56,9 +54,8 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Aliases]
-A0=_ "C:\Users\vasil_000\Documents\Ilya\Projects\EWARM\STM32L1\I2C_Test\src\startup\startup_stm32l1xx_md.s" "H:\Projects\EWARM\STM32L1\I2C_Test\src\startup\startup_stm32l1xx_md.s"
-Count=1
-SuppressDialog=1
+Count=0
+SuppressDialog=0
 [CallStackLog]
 Enabled=0
 [DriverProfiling]

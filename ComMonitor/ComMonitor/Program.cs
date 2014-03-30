@@ -59,20 +59,28 @@ namespace ComMonitor
             {
                 try
                 {
-                    int packagesToRead = _serialPort.BytesToRead;
+                    int bytesCount = _serialPort.BytesToRead;
+                    char[] bytesRead = new char[bytesCount];
+                    _serialPort.Read(bytesRead, 0, bytesCount);
+                    for (int j = 0; j < bytesCount; j++)
+                    {
+                        Console.WriteLine(bytesRead[j]);
+                    }
+                    /*int packagesToRead = _serialPort.BytesToRead;
                     packagesToRead -= packagesToRead % Package.PackageSize;
                     packagesToRead /= Package.PackageSize;
                     int messagesAmount = 0;
                     for (int i = 0; i < packagesToRead; i++)
                     {
-                        _serialPort.Read(_package.Bytes, 0, Package.PackageSize - 1);
+                        _serialPort.Read(_package.Bytes, 0, Package.PackageSize);
+                        //Console.WriteLine(_package.Bytes[0].ToString());
                         string[] messages = _package.Decompose(ref messagesAmount);
                         for (int j = 0; j < messagesAmount; j++)
                         {
                             Console.WriteLine(messages[j]);
                         }
 
-                    }
+                    }*/
                 }
                 catch (TimeoutException) { }
             }

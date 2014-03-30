@@ -99,7 +99,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>STM32L152x6	ST STM32L152x6</state>
+          <state>STM32L152xB	ST STM32L152xB</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -168,7 +168,7 @@
         </option>
         <option>
           <name>CCDefines</name>
-          <state>NDEBUG</state>
+          <state>USE_FULL_ASSERT</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -297,8 +297,8 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
-          <state>.\inc</state>
-          <state>..\inc</state>
+          <state>.\include</state>
+          <state>..\include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -573,7 +573,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>I2C_Test.srec</state>
+          <state>c.srec</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -1836,89 +1836,59 @@
     </settings>
   </configuration>
   <group>
-    <name>src</name>
+    <name>source</name>
     <group>
       <name>CMSIS</name>
       <file>
-        <name>$PROJ_DIR$\src\CMSIS\core_cm3.c</name>
+        <name>$PROJ_DIR$\source\CMSIS\core_cm3.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\src\CMSIS\system_stm32l1xx.c</name>
+        <name>$PROJ_DIR$\source\CMSIS\system_stm32l1xx.c</name>
       </file>
     </group>
     <group>
-      <name>inc</name>
+      <name>include</name>
       <file>
-        <name>$PROJ_DIR$\src\inc\core_cm3.h</name>
+        <name>$PROJ_DIR$\source\include\core_cm3.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\src\inc\core_cmFunc.h</name>
+        <name>$PROJ_DIR$\source\include\core_cmFunc.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\src\inc\core_cmInstr.h</name>
+        <name>$PROJ_DIR$\source\include\core_cmInstr.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\src\inc\stm32l1xx.h</name>
+        <name>$PROJ_DIR$\source\include\stm32l1xx.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\src\inc\stm32l1xx_conf.h</name>
+        <name>$PROJ_DIR$\source\include\stm32l1xx_conf.h</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\src\inc\system_stm32l1xx.h</name>
+        <name>$PROJ_DIR$\source\include\system_stm32l1xx.h</name>
+      </file>
+    </group>
+    <group>
+      <name>myLib</name>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\USART.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\USART.h</name>
       </file>
     </group>
     <group>
       <name>startup</name>
       <file>
-        <name>$PROJ_DIR$\src\startup\startup_stm32l1xx_md.s</name>
+        <name>$PROJ_DIR$\source\startup\startup_stm32l1xx_md.s</name>
       </file>
     </group>
     <file>
-      <name>$PROJ_DIR$\src\Buffer.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\Buffer.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C_Buffer.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C_Buffer.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C_Device.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C_Device.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C_Operation.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\I2C_Operation.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\Interrupt.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\Interrupt.h</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\main.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\MS5611.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\MS5611.h</name>
+      <name>$PROJ_DIR$\source\main.c</name>
     </file>
   </group>
+  <file>
+    <name>$PROJ_DIR$\devInfo.txt</name>
+  </file>
 </project>
 
 

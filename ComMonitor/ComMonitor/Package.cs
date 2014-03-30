@@ -14,7 +14,8 @@ namespace ComMonitor
         I2C_Transmitter,
         I2C_Receiver,
         I2C_CommandTrans,
-        I2C_ByteRec
+        I2C_ByteRec,
+        I2C_BusErr
     };
 
     public class Package
@@ -40,7 +41,7 @@ namespace ComMonitor
                     result = new string[messagesAmount];
                     for (int i = 1; i < PackageSize; i++)
                     {
-                        result[i-1] = Bytes[i].ToString();
+                        result[i - 1] = DecodeMessage(Bytes[i]);
                     }
                     break;
                 case 2:
@@ -48,13 +49,13 @@ namespace ComMonitor
                     result = new string[messagesAmount];
                     for (int i = 0; i < messagesAmount; i++)
                     {
-                        result[i] = (BitConverter.ToInt16(Bytes, 1+i*2)).ToString();
+                        result[i] = (BitConverter.ToInt16(Bytes, 1 + i * 2)).ToString();
                     }
                     break;
                 case 3:
                     messagesAmount = 1;
                     result = new string[1];
-                    result[0] = BitConverter.ToInt32(Bytes, 1).ToString(); 
+                    result[0] = BitConverter.ToInt32(Bytes, 1).ToString();
                     break;
                 default:
                     messagesAmount = 1;
@@ -65,44 +66,41 @@ namespace ComMonitor
             return result;
         }
 
-        private string[] DecodeMessage(Byte[] bytes)
+        private string DecodeMessage(Byte message)
         {
-            int arraySize = bytes.GetLength(0);
-            string[] messages = new string[arraySize];
-            for (int i = 0; i < arraySize; i++)
+            switch (message)
             {
-                switch (bytes[i])
-                {
-                    case (byte)Message.I2C_StartSet:
-                        messages[i] = "I2C start set";
-                        break;
-                    case (byte)Message.I2C_Busy:
-                        messages[i] = "I2C is busy";
-                        break;
-                    case (byte)Message.I2C_StartSucc:
-                        messages[i] = "I2C start successful";
-                        break;
-                    case (byte)Message.I2C_NoAck:
-                        messages[i] = "I2C no ack. Stop is set";
-                        break;
-                    case (byte)Message.I2C_Transmitter:
-                        messages[i] = "I2C transmitter";
-                        break;
-                    case (byte)Message.I2C_Receiver:
-                        messages[i] = "I2C receiver";
-                        break;
-                    case (byte)Message.I2C_CommandTrans:
-                        messages[i] = "I2C command transmitted";
-                        break;
-                    case (byte)Message.I2C_ByteRec:
-                        messages[i] = "I2C byte received";
-                        break;
-                    default:
-                        messages[i] = "Unknown command";
-                        break;
-                }
+                case (byte)Message.I2C_StartSet:
+                    return "I2C start set";
+                    break;
+                case (byte)Message.I2C_Busy:
+                    return "I2C is busy";
+                    break;
+                case (byte)Message.I2C_StartSucc:
+                    return "I2C start successful";
+                    break;
+                case (byte)Message.I2C_NoAck:
+                    return "I2C no ack. Stop is set";
+                    break;
+                case (byte)Message.I2C_Transmitter:
+                    return "I2C transmitter";
+                    break;
+                case (byte)Message.I2C_Receiver:
+                    return "I2C receiver";
+                    break;
+                case (byte)Message.I2C_CommandTrans:
+                    return "I2C command transmitted";
+                    break;
+                case (byte)Message.I2C_ByteRec:
+                    return "I2C byte received";
+                    break;
+                case (byte)Message.I2C_BusErr:
+                    return "I2C bus error";
+                    break;
+                default:
+                    return "Unknown command";
+                    break;
             }
-            return messages;
         }
     }
 

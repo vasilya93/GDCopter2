@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    TIM/TimeBase/stm32l1xx_conf.h 
+  * @file    Project/STM32L1xx_StdPeriph_Templates/stm32l1xx_conf.h 
   * @author  MCD Application Team
   * @version V1.1.1
   * @date    13-April-2012
@@ -31,30 +31,30 @@
 
 /* Includes ------------------------------------------------------------------*/
 /* Uncomment/Comment the line below to enable/disable peripheral header file inclusion */
-//#include "stm32l1xx_adc.h"
-//#include "stm32l1xx_aes.h"
-//#include "stm32l1xx_comp.h"
-//#include "stm32l1xx_crc.h"
-//#include "stm32l1xx_dac.h"
-//#include "stm32l1xx_dbgmcu.h"
-//#include "stm32l1xx_dma.h"
-//#include "stm32l1xx_exti.h"
-//#include "stm32l1xx_flash.h"
-//#include "stm32l1xx_fsmc.h"
+#include "stm32l1xx_adc.h"
+#include "stm32l1xx_aes.h"
+#include "stm32l1xx_comp.h"
+#include "stm32l1xx_crc.h"
+#include "stm32l1xx_dac.h"
+#include "stm32l1xx_dbgmcu.h"
+#include "stm32l1xx_dma.h"
+#include "stm32l1xx_exti.h"
+#include "stm32l1xx_flash.h"
+#include "stm32l1xx_fsmc.h"
 #include "stm32l1xx_gpio.h"
-//#include "stm32l1xx_i2c.h"
-//#include "stm32l1xx_iwdg.h"
-//#include "stm32l1xx_lcd.h"
-//#include "stm32l1xx_opamp.h"
-//#include "stm32l1xx_pwr.h"
+#include "stm32l1xx_i2c.h"
+#include "stm32l1xx_iwdg.h"
+#include "stm32l1xx_lcd.h"
+#include "stm32l1xx_opamp.h"
+#include "stm32l1xx_pwr.h"
 #include "stm32l1xx_rcc.h"
-//#include "stm32l1xx_rtc.h"
-//#include "stm32l1xx_sdio.h"
-//#include "stm32l1xx_spi.h"
-//#include "stm32l1xx_syscfg.h"
+#include "stm32l1xx_rtc.h"
+#include "stm32l1xx_sdio.h"
+#include "stm32l1xx_spi.h"
+#include "stm32l1xx_syscfg.h"
 #include "stm32l1xx_tim.h"
 #include "stm32l1xx_usart.h"
-//#include "stm32l1xx_wwdg.h"
+#include "stm32l1xx_wwdg.h"
 #include "misc.h"  /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
 
 /* Exported types ------------------------------------------------------------*/
