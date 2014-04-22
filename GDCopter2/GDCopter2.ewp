@@ -299,6 +299,8 @@
           <name>CCIncludePath2</name>
           <state>.\include</state>
           <state>..\include</state>
+          <state>.\myLib</state>
+          <state>..\myLib</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1869,6 +1871,27 @@
     </group>
     <group>
       <name>myLib</name>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\assert.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Buffer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Buffer.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\ClockControl.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\ClockControl.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Serial.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Serial.h</name>
+      </file>
       <file>
         <name>$PROJ_DIR$\source\myLib\USART.c</name>
       </file>
