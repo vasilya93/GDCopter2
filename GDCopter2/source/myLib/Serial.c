@@ -332,7 +332,8 @@ void RunTransmission()
   //can take away the byte since the previous operation
   if((~Serial.State & SERIAL_STATE_BUSY) && (~Serial.OutputBuffer.Status && BUFFER_STATUS_EMPTY))
   {
-    USART_WriteByte(Buffer_Pop(&Serial.OutputBuffer));
+    //USART_WriteByte(Buffer_Pop(&Serial.OutputBuffer));
+    //TXE bit in SR is somehow set sot TXEI will handle the bytes in the buffer
     USART_EnableInterrupts(USART_IT_TXE);
   }
 }
@@ -364,6 +365,10 @@ void TXE_Handler()
 
 void RXNE_Handler(uint8_t symbol)
 {
+  for(int i = 0; i < Serial.BRH_Amount; i++)
+  {
+    Serial.ByteReceivedHandlers[i](symbol);
+  }
   if(Serial.State & SERIAL_STATE_PATTERNED)
   {
   }

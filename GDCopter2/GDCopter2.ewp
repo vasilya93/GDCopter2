@@ -1887,10 +1887,28 @@
         <name>$PROJ_DIR$\source\myLib\ClockControl.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\source\myLib\I2C.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\I2C.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Messenger.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Messenger.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\source\myLib\Serial.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\source\myLib\Serial.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Timer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Timer.h</name>
       </file>
       <file>
         <name>$PROJ_DIR$\source\myLib\USART.c</name>

@@ -34,7 +34,7 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=2057642092
+Checksum=-1632459476
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -61,8 +61,9 @@ Exclusions=
 mode=0
 [Breakpoints2]
 Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\source\myLib\ClockControl.h}.6.1" 0 0 1 "" 0 "" 0
-Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\source\myLib\assert.h}.6.3" 0 0 1 "" 0 "" 0
-Count=2
+Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\source\myLib\assert.h}.6.3" 0 0 1 "" 0 "" 0
+Bp2=_ 1 "EMUL_CODE" "{$PROJ_DIR$\source\myLib\I2C.c}.10.1" 0 0 1 "" 0 "" 0
+Count=3
 [Aliases]
 Count=0
 SuppressDialog=0
