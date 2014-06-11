@@ -10,6 +10,7 @@
 uint8_t ledState;
 uint8_t symbol;
 uint32_t counter;
+char RecArray[50];
 
 void Initialize();
 void ToggleLed();
@@ -82,12 +83,14 @@ void TIM7_IRQHandler(void)
 }
 
 void EXTI0_IRQHandler(void)
-{
-  
-  /*EXTI->PR |= EXTI_PR_PR0;
-  Serial_WriteLine("Bytes received: ");
+{  
+  EXTI->PR |= EXTI_PR_PR0;
+  /*Serial_WriteLine("Hello world!");
   Serial_WriteInt32AsString(counter);
-  Serial_WriteLine("\n\r");*/
+  Serial_WriteLine("\r\n");*/
+  RecArray[counter] = '\0';
+  Serial_WriteLine(RecArray);
+  counter = 0;
 }
 
 /*void EXTI15_10_IRQHandler(void)
@@ -98,6 +101,10 @@ void EXTI0_IRQHandler(void)
   
   void HandlerCounter(uint8_t recByte)
   {
-    counter++;
+    RecArray[counter] = recByte;
+    if(counter < 48)
+    {
+      counter++;
+    }
     ToggleLed();
   }

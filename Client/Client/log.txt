@@ -1,0 +1,12 @@
+SerialComm.AttachHandlerHost: handler is attached.
+SerialComm.Connect: connection is completed.
+SerialComm._writeThread: write operation is accomplished.
+SerialComm.Write: successfully completed.
+SerialComm.Disconnect: port is disconnected.
+SerialComm.Connect: connection is completed.
+SerialComm._readThread: bytes received.
+SerialComm._writeThread: write operation is accomplished.
+SerialComm.Write: successfully completed.
+SerialComm._writeThread: write operation is accomplished.
+SerialComm.Write: successfully completed.
+SerialComm._readThread: bytes received.
