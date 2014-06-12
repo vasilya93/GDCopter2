@@ -2,20 +2,21 @@
 #include "tchar.h"
 #include "string.h"
 #include "SerialComm.h"
+#include "CommManager.h"
 
 #define MAIN_ANSWER_SIZE 50
 
-class ConsoleWriter : public SerialCommSubscribable
+class ConsoleWriter : public SerialCommSubscribable, public CommManagerSubscribable
 {
 public:
-	ConsoleWriter() : SerialCommSubscribable()
+	ConsoleWriter() : SerialCommSubscribable(), CommManagerSubscribable()
 	{}
 
 	~ConsoleWriter(){}
 
 	void SerialBytesReceivedHandler(char* bytes, unsigned int bytesNum)
 	{
-		printf("Received: %s", bytes);
+		printf("%s", bytes);
 	}
 
 	void SerialBaudrateChangedHandler(unsigned long baudrate)
@@ -25,13 +26,18 @@ public:
 	void SerialNothingReceivedHandler()
 	{
 	}
+
+	void MessageReadyHandler(char* message)
+	{
+		printf("%s", message);
+	}
 };
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	SerialComm serialComm;
-	SerialCommSubscribable* consoleWriter = new ConsoleWriter();
-	serialComm.AttachHandlerHost(consoleWriter);
+	CommManager commManager;
+	ConsoleWriter consoleWriter;
+	commManager.AttachHandlerHost(&consoleWriter);
 
 	char answer[MAIN_ANSWER_SIZE];
 	wchar_t port[MAIN_ANSWER_SIZE];
@@ -42,7 +48,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		scanf_s("%49s", answer, MAIN_ANSWER_SIZE);
 		if(!strcmp("exit", answer))
 		{
-			serialComm.Disconnect();
+			commManager.Disconnect();
 			result = false;
 		}
 		else if(!strcmp("connect", answer))
@@ -51,26 +57,26 @@ int _tmain(int argc, _TCHAR* argv[])
 			size_t convNum;
 			mbstowcs_s(&convNum, port, MAIN_ANSWER_SIZE, answer, _TRUNCATE);
 			unsigned int error;
-			serialComm.Connect(port, 115200, error);
+			commManager.Connect(port, 115200, error);
 		}
 		else if(!strcmp("disconnect", answer))
 		{
-			serialComm.Disconnect();
+			commManager.Disconnect();
 		}
 		else if(!strcmp("write", answer))
 		{
 			scanf_s("%49s", answer, MAIN_ANSWER_SIZE);
 			bool isLineUsed = true;// isLineUsed заменить как-то
 			unsigned long mesLen = strlen(answer);
-			serialComm.Write(answer, mesLen, &isLineUsed); 
+			commManager.Write(answer, mesLen, &isLineUsed); 
 		}
 		else if(!strcmp("log", answer))
 		{
-			serialComm.SaveLogToFile();
+			commManager.SaveLogToFile();
 		}
 		else if(!strcmp("logclr", answer))
 		{
-			serialComm.ClearLog();
+			commManager.ClearLog();
 		}
 	}
 

@@ -75,8 +75,6 @@ public:
 	HANDLE GetPort(){return hPort;}
 	OVERLAPPED GetSync(){return _writeSync;}
 	char* GetReadBuf(){return ReadBuf;}
-	void SaveLogToFile(){CommLog->SaveToFile();}
-	void ClearLog(){CommLog->Clear();}
 	bool ResetTick(unsigned long*, unsigned long*);
 
 	bool AttachHandlerHost(SerialCommSubscribable* newHost);

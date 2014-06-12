@@ -2,6 +2,7 @@
 #include "ClockControl.h"
 #include "Serial.h"
 #include "I2C.h"
+#include "Messenger.h"
 
 //pins uart2-rx pd6, uart2-tx pd5, rs232-en pd0, leds - pe10 pe11
 //pins left button - pc13 - user, right button - pa0 - wkup;
@@ -85,12 +86,21 @@ void TIM7_IRQHandler(void)
 void EXTI0_IRQHandler(void)
 {  
   EXTI->PR |= EXTI_PR_PR0;
-  /*Serial_WriteLine("Hello world!");
-  Serial_WriteInt32AsString(counter);
-  Serial_WriteLine("\r\n");*/
-  RecArray[counter] = '\0';
-  Serial_WriteLine(RecArray);
-  counter = 0;
+  if(counter == 0)
+  {
+    Messenger_SendByte(I2C_MSG_STRTST);
+    counter = 1;
+  }
+  else if(counter == 1)
+  {
+    Messenger_SendWord(300);
+    counter = 2;
+  }
+  else if(counter == 2)
+  {
+    Messenger_SendDWord(100111);
+    counter = 0;
+  }
 }
 
 /*void EXTI15_10_IRQHandler(void)

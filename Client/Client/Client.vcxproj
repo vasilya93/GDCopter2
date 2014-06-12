@@ -80,16 +80,20 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommManager.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="PacketMaker.h" />
     <ClInclude Include="SerialComm.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="CommManager.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="PacketMaker.cpp" />
     <ClCompile Include="SerialComm.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>

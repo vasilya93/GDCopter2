@@ -9,8 +9,6 @@ using namespace std;
 
 SerialComm::SerialComm()
 {
-	CommLog = new Log();
-
 	_packetCounter = 0;
 
 	_writeSync.hEvent = INVALID_HANDLE_VALUE;

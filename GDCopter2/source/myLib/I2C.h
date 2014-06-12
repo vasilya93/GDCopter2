@@ -7,6 +7,7 @@
 
 #define I2C_ST_BUSY 1
 
+//1-30 message codes are for I2C
 #define I2C_MSG_STRTST 1
 
 #include "stdbool.h"
