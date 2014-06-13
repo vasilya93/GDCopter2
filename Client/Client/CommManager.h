@@ -43,6 +43,7 @@ public:
 	{return _serialComm.Write(line, lineSize, isLineUsed);}
 	void SaveLogToFile(){_commLog->SaveToFile();}
 	void ClearLog(){_commLog->Clear();}
+	void ClearBuf(){_packetMaker.ClearBuf();}
 
 	//Funcs
 	bool AttachHandlerHost(CommManagerSubscribable* newHost);

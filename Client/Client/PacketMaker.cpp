@@ -4,15 +4,20 @@
 
 PacketMaker::PacketMaker()
 {
+	ClearBuf();
+}
+
+PacketMaker::~PacketMaker()
+{
+}
+
+void PacketMaker::ClearBuf()
+{
 	_recFirstIn = 0;
 	_recLastIn = 0;
 	_recLeftFree = PAKMAK_BUFSIZE;
 	_recBytesNum = 0;
 	_isMessageReady = false;
-}
-
-PacketMaker::~PacketMaker()
-{
 }
 
 bool PacketMaker::PushReceived(char* bytes, unsigned long bytesNum)
@@ -129,6 +134,42 @@ char* PacketMaker::_decodeMessage(char code)
 	{
 	case I2C_MSG_STRTST:
 		return "I2C start set";
+	case I2C_MSG_SBSND:
+		return "I2C start-bit sent";
+	case I2C_MSG_ADSND:
+		return "I2C address sent";
+	case I2C_MSG_TRNSMTR:
+		return "I2C transmitter";
+	case I2C_MSG_NACKST:
+		return "I2C ACK reset";
+	case I2C_MSG_RCVR:
+		return "I2C receiver";
+	case I2C_MSG_TRSCPL:
+		return "I2C transmission complete";
+	case I2C_MSG_TXE:
+		return "I2C TX empty";
+	case I2C_MSG_RXNE:
+		return "I2C RX not empty";
+	case I2C_MSG_RXNE0:
+		return "I2C last byte received";
+	case I2C_MSG_RXNE1:
+		return "I2C second last byte received";
+	case I2C_MSG_AF:
+		return "I2C acknowledgement failure";
+	case I2C_MSG_STRTFL:
+		return "I2C start failure";
+	case I2C_MSG_ERR:
+		return "I2C unhandled error";
+	case MS5611_MSG_NODATA:
+		return "MS5611 next init operation NODATA";
+	case MS5611_MSG_SENST1REQ:
+		return "MS5611 next init operation SENST1REQ";
+	case MS5611_MSG_SENST1:
+		return "MS5611 next init operation SENST1";
+	case MS5611_MSG_OFFT1REQ:
+		return "MS5611 next init operation OFFT1REQ";
+	case MS5611_MSG_OFFT1:
+		return "MS5611 next init operation OFFT1";
 	default:
 		return "Unknown code";
 		break;

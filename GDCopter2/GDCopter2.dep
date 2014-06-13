@@ -2,7 +2,7 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>2560903367</fileChecksum>
+  <fileChecksum>955595573</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
@@ -99,6 +99,14 @@
       <file>$PROJ_DIR$\Debug\Obj\Messenger.o</file>
       <file>$PROJ_DIR$\Debug\Obj\Messenger.pbi</file>
       <file>$PROJ_DIR$\..\..\..\EWARM\STM32L1\I2C_Test\src\main.c</file>
+      <file>$PROJ_DIR$\source\myLib\Wire.c</file>
+      <file>$PROJ_DIR$\source\myLib\MS5611.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\MS5611.o</file>
+      <file>$PROJ_DIR$\source\myLib\Wire.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\MS5611.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\Wire.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\Wire.pbi</file>
+      <file>$PROJ_DIR$\source\myLib\MS5611.c</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\source\StandardPeripheralsLibrary\stm32l1xx_usart.c</name>
@@ -317,11 +325,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 12 18 45 0 28 3 61 63 88 38 22 73 5 21 13 11 33 1 19 17 14</file>
+          <file> 12 18 45 0 28 3 61 63 88 38 22 73 5 21 13 11 33 1 19 17 14 94 96 53 54</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 12 18 45 0 28 3 61 63 88 38 22 73 5 21 13 11 33 1 19 17 14</file>
+          <file> 12 18 45 0 28 3 61 63 88 38 22 73 5 21 13 11 33 1 19 17 14 94 96 53 54</file>
         </tool>
       </inputs>
     </file>
@@ -399,7 +407,7 @@
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 65 59 26 74 90 58 87 50 64 81 55 69 43 82 70 24</file>
+          <file> 65 59 26 74 95 90 58 87 50 98 64 81 55 69 43 82 70 24</file>
         </tool>
       </inputs>
     </file>
@@ -459,6 +467,52 @@
         <tool>
           <name>ICCARM</name>
           <file> 44 12 18 45 0 28 3 61 63 88 38 22 73 5 21 13 60</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\source\myLib\Wire.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 99</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 98</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 96 17 1 45 0 28 3 61 63 88 38 53 54</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 96 17 1 45 0 28 3 61 63 88 38 53 54</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\source\myLib\MS5611.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 97</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 95</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 94 96 17 1 45 0 28 3 61 63 88 38 53 54 14 33 19</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 94 96 17 1 45 0 28 3 61 63 88 38 53 54 14 33 19</file>
         </tool>
       </inputs>
     </file>

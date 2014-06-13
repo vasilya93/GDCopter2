@@ -78,6 +78,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		{
 			commManager.ClearLog();
 		}
+		else if(!strcmp("cls", answer))
+		{
+			system("cls");
+		}
+		else if(!strcmp("bufclr", answer))
+		{
+			commManager.ClearBuf();
+		}
 	}
 
 	return 0;
