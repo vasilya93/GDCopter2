@@ -1,6 +1,3 @@
-#include "stdbool.h"
-#include "stdint.h"
-
 #ifndef USART_H
 #define USART_H
 
@@ -29,6 +26,9 @@
 #define USART_IT_TC 0x02
 #define USART_IT_RXNE 0x04
 #define USART_IT_PE 0x08
+
+#include "stdbool.h"
+#include "stdint.h"
 
 void USART_InitStructure();
 

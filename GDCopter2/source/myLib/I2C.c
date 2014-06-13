@@ -5,11 +5,18 @@
 
 I2C_Operation_Type I2C_Operation;
 
+void I2C_SendAddress();
+void I2C_OperateTransmitter();
+void I2C_OperateReceiver();
+void I2C_TransmitRegisterEmpty();
+void I2C_ReceiveRegisterNotEmpty();
+
 void I2C_Begin()
 {
   I2C_Operation.State = 0;
   I2C_Operation.Bytes = calloc(I2C_DATA_SIZE, sizeof(uint8_t));
   I2C_Operation.Description.DataDescript = I2C_DD_NODATA;
+  I2C_Operation.OCH_Amount = 0;
   
   NVIC_EnableIRQ(I2C1_EV_IRQn);
   NVIC_EnableIRQ(I2C1_ER_IRQn);
@@ -52,47 +59,73 @@ bool I2C_OperationComplete_Attach(void (*handler)(void* operation))
   return true;
 }
 
-bool I2C_StartOperation(I2C_OpDescript_Type description)
+bool I2C_StartOperation(I2C_OpDescript_Type description, uint8_t* bytes)
 {
   if((description.BytesNum > I2C_DATA_SIZE) || (I2C_Operation.State & I2C_ST_BUSY))
   {
+    Messenger_SendByte(I2C_MSG_STRTFL); 
     return false;
   }
   I2C_Operation.State |= I2C_ST_BUSY;
   I2C_Operation.Description = description;
+  I2C_Operation.CurrentByte = 0;
+  if(!description.IsRead)
+  {
+    for(int i = 0; i < description.BytesNum; i++)
+    {
+      I2C_Operation.Bytes[i] = bytes[i];
+    }
+    free(bytes);
+  }
+  
+  I2C1->CR1 |= I2C_CR1_ACK;
   
   while(I2C1->SR2 & I2C_SR2_BUSY);
   
   I2C1->CR1 |= I2C_CR1_START;
-  Messenger_SendByte(I2C_MSG_STRTST); 
+  //Messenger_SendByte(I2C_MSG_STRTST); 
   
   return true;
+}
+
+void I2C_SetOpDescription(I2C_OpDescript_Type* descript, uint16_t dataDescript,
+                          uint8_t deviceAddress, bool isRead, uint8_t bytesNum)
+{
+  descript->DataDescript = dataDescript;
+  descript->DeviceAddress = deviceAddress;
+  descript->IsRead = isRead;
+  descript->BytesNum = bytesNum;
 }
 
 void I2C1_EV_IRQHandler(void)
 {
   if(I2C1->SR1 & I2C_SR1_SB)
   {
-    //I2C_SendAddress();
+    I2C_SendAddress();
   }
   if(I2C1->SR1 & I2C_SR1_ADDR)
   {
+    if(I2C_Operation.Description.IsRead && I2C_Operation.Description.BytesNum == 1)
+    {
+      I2C1->CR1 &= ~I2C_CR1_ACK; //This should be done during event6, before addr is cleared
+      Messenger_SendByte(I2C_MSG_NACKST);
+    }
     if(I2C1->SR2 & I2C_SR2_TRA)
     {
-      //I2C_OperateTransmitter();
+      I2C_OperateTransmitter();
     }
     else
     {
-      //I2C_OperateReceiver();
+      I2C_OperateReceiver();
     }
   }
   if(I2C1->SR1 & I2C_SR1_TXE)
   {
-    //I2C_TransmitRegisterEmpty();
+    I2C_TransmitRegisterEmpty();
   }
   if(I2C1->SR1 & I2C_SR1_RXNE)
   {
-    //I2C_ReceiveRegisterNotEmpty();
+    I2C_ReceiveRegisterNotEmpty();
   }
 }
 
@@ -100,9 +133,90 @@ void I2C1_ER_IRQHandler(void)
 {
   if(I2C1->SR1 & I2C_SR1_AF)
   {
-    //I2C1->SR1 &= ~I2C_SR1_AF;
-    //I2C1->CR1 |= I2C_CR1_STOP;//нет акноледжмента, во первых I2C_CurrentOperation пропадает
-    //PushSingleByte(&USART_Buffer, MESSAGE_I2C_NO_ACK);//во вторых все ост. операции ждут след. секунды
+    I2C1->SR1 &= ~I2C_SR1_AF;
+    I2C1->CR1 |= I2C_CR1_STOP;//нет акноледжмента, во первых I2C_CurrentOperation пропадает
+    I2C_Operation.State &= ~I2C_ST_BUSY;
+    Messenger_SendByte(I2C_MSG_AF);    
+    
+    //попробовать еще раз запустить операцию
+    I2C1->CR1 |= I2C_CR1_ACK;  
+    while(I2C1->SR2 & I2C_SR2_BUSY);  
+    I2C1->CR1 |= I2C_CR1_START;
+    
+    //во вторых все ост. операции ждут след. секунды
     //I2C_SetStart(false);//вызов старта с параметром, нужно переписывать CurrentOperat или нет
+  }
+  else
+  {
+    Messenger_SendByte(I2C_MSG_ERR);
+  }
+}
+
+//-------------------------Hidden functions-------------------------------------
+
+void I2C_SendAddress()
+{
+  I2C1->DR = (I2C_Operation.Description.DeviceAddress << 1) | I2C_Operation.Description.IsRead;
+  //Messenger_SendByte(I2C_MSG_ADSND);
+}
+
+void I2C_OperateTransmitter()
+{
+  I2C1->DR = I2C_Operation.Bytes[0];
+  I2C_Operation.CurrentByte++;
+  //Messenger_SendByte(I2C_MSG_TRNSMTR);
+}
+
+void I2C_OperateReceiver()
+{
+  if(I2C_Operation.Description.BytesNum == 1)
+  {
+    I2C1->CR1 |= I2C_CR1_STOP;
+  }
+  //Messenger_SendByte(I2C_MSG_RCVR);
+}
+
+void I2C_TransmitRegisterEmpty()
+{
+  if(++I2C_Operation.CurrentByte < I2C_Operation.Description.BytesNum)
+  {
+    I2C1->DR = I2C_Operation.Bytes[I2C_Operation.CurrentByte];
+    //Messenger_SendByte(I2C_MSG_TXE);
+  }
+  else if(I2C1->SR1 & I2C_SR1_BTF)
+  {
+    I2C1->CR1 |= I2C_CR1_STOP;//буффер в i2c сложнее - нельзя терять данные, портится логика работы, либо выделять логические блоки и их буфферизировать
+    Messenger_SendByte(I2C_MSG_TRSCPL);
+    I2C_Operation.State &= ~I2C_ST_BUSY; //danger
+    for(int i = 0; i < I2C_Operation.OCH_Amount; i++)
+    {
+      (*I2C_Operation.OperationCompleteHandlers[i])(&I2C_Operation);
+    }
+  }
+}
+
+void I2C_ReceiveRegisterNotEmpty()
+{
+  I2C_Operation.CurrentByte++;
+  I2C_Operation.Bytes[I2C_Operation.CurrentByte - 1] = I2C1->DR;
+  uint8_t bytesLeft = I2C_Operation.Description.BytesNum - I2C_Operation.CurrentByte;
+  switch(bytesLeft)
+  {
+  case 1:
+    //Messenger_SendByte(I2C_MSG_RXNE1);
+    I2C1->CR1 &= ~I2C_CR1_ACK;
+    I2C1->CR1 |= I2C_CR1_STOP;
+    break;
+  case 0:
+    Messenger_SendByte(I2C_MSG_RXNE0);
+    I2C_Operation.State &= ~I2C_ST_BUSY;
+    for(int i = 0; i < I2C_Operation.OCH_Amount; i++)
+    {
+      (*I2C_Operation.OperationCompleteHandlers[i])(&I2C_Operation);
+    }
+    break;
+  default:
+    //Messenger_SendByte(I2C_MSG_RXNE);
+    break;
   }
 }

@@ -2,6 +2,10 @@
 #include "ClockControl.h"
 #include "Serial.h"
 #include "I2C.h"
+#include "Messenger.h"
+#include "MS5611.h"
+#include "Wire.h"
+#include "stdlib.h"
 
 //pins uart2-rx pd6, uart2-tx pd5, rs232-en pd0, leds - pe10 pe11
 //pins left button - pc13 - user, right button - pa0 - wkup;
@@ -10,10 +14,12 @@
 uint8_t ledState;
 uint8_t symbol;
 uint32_t counter;
+char RecArray[50];
 
 void Initialize();
 void ToggleLed();
 void HandlerCounter(uint8_t recByte);
+void I2C_Handler(void* operation);
 
 int main()
 {
@@ -35,7 +41,11 @@ void Initialize()
   
   ClockControl_Initialize();
   
-  I2C_Begin();
+  MS5611_Initialize(&MS5611);
+  Wire_Initialize();
+  Wire_AttachDevice(&MS5611);
+  //I2C_Begin();
+  //I2C_OperationComplete_Attach(&I2C_Handler);
   
   Serial_Begin(115200);
   Serial_ByteReceived_Attach(&HandlerCounter);
@@ -82,12 +92,17 @@ void TIM7_IRQHandler(void)
 }
 
 void EXTI0_IRQHandler(void)
-{
-  
-  /*EXTI->PR |= EXTI_PR_PR0;
-  Serial_WriteLine("Bytes received: ");
-  Serial_WriteInt32AsString(counter);
-  Serial_WriteLine("\n\r");*/
+{  
+  EXTI->PR |= EXTI_PR_PR0;
+  Wire_Begin();
+//  I2C_OpDescript_Type opDescript;
+//  opDescript.BytesNum = 1;
+//  opDescript.DataDescript = 1;
+//  opDescript.DeviceAddress = 0x77;
+//  opDescript.IsRead = false;
+//  uint8_t* bytes = malloc(1);
+//  bytes[0] = MS5611_READ_SENS_T1;
+//  I2C_StartOperation(opDescript, bytes);
 }
 
 /*void EXTI15_10_IRQHandler(void)
@@ -96,8 +111,35 @@ void EXTI0_IRQHandler(void)
   ToggleLed();
 }*/
   
-  void HandlerCounter(uint8_t recByte)
+void HandlerCounter(uint8_t recByte)
+{
+  RecArray[counter] = recByte;
+  if(counter < 48)
   {
     counter++;
-    ToggleLed();
   }
+  ToggleLed();
+}
+
+void I2C_Handler(void* operation)
+{
+  switch(((I2C_Operation_Type*)operation)->Description.DataDescript)
+  {
+  case 1:
+    {
+      I2C_OpDescript_Type opDescript;
+      opDescript.BytesNum = 2;
+      opDescript.DataDescript = 2;
+      opDescript.DeviceAddress = 0x77;
+      opDescript.IsRead = true;
+      I2C_StartOperation(opDescript, NULL);
+    }
+    break;
+  case 2:
+    {
+      uint16_t data = (((I2C_Operation_Type*)operation)->Bytes[0]) << 8 | ((I2C_Operation_Type*)operation)->Bytes[1];
+      Messenger_SendDWord(data);
+    }
+    break;
+  }
+}

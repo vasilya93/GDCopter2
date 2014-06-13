@@ -1899,6 +1899,12 @@
         <name>$PROJ_DIR$\source\myLib\Messenger.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\source\myLib\MS5611.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\MS5611.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\source\myLib\Serial.c</name>
       </file>
       <file>
@@ -1915,6 +1921,12 @@
       </file>
       <file>
         <name>$PROJ_DIR$\source\myLib\USART.h</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Wire.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\source\myLib\Wire.h</name>
       </file>
     </group>
     <group>

@@ -126,10 +126,10 @@ void Serial_WriteFloatAsString(float number)
 void Serial_WriteInt32(uint32_t number)
 {
   Serial._32Converter.Integer = number;
-  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[0]);
-  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[1]);
-  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[2]);
   Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[3]);
+  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[2]);
+  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[1]);
+  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[0]);
   
   RunTransmission();
 }
@@ -137,8 +137,8 @@ void Serial_WriteInt32(uint32_t number)
 void Serial_WriteInt16(uint16_t number)
 {
   Serial.WordConverter.Word = number;
-  Buffer_Push(&Serial.OutputBuffer, Serial.WordConverter.Bytes[0]);
   Buffer_Push(&Serial.OutputBuffer, Serial.WordConverter.Bytes[1]);
+  Buffer_Push(&Serial.OutputBuffer, Serial.WordConverter.Bytes[0]);
   
   RunTransmission();
 }
@@ -146,10 +146,10 @@ void Serial_WriteInt16(uint16_t number)
 void Serial_WriteFloat(float number)
 {
   Serial._32Converter.RealNum = number;
-  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[0]);
-  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[1]);
-  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[2]);
   Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[3]);
+  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[2]);
+  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[1]);
+  Buffer_Push(&Serial.OutputBuffer, Serial._32Converter.Bytes[0]);
   
   RunTransmission();
 }
