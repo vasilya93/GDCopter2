@@ -1,3 +1,6 @@
+#include <string.h>
+#include "DataKeeper.h"
+
 #ifndef PACKETMAKER_H
 #define PACKETMAKER_H
 
@@ -15,6 +18,9 @@
 #define MSNR_DD_ACCELZ 0x10
 #define MSNR_DD_WHOAMI 0x14
 #define MSNR_DD_PWRMGMT1 0x18
+#define MSNR_DD_ANGSPEEDX 0x1C
+#define MSNR_DD_ANGSPEEDY 0x20
+#define MSNR_DD_ANGSPEEDZ 0x24
 
 #define I2C_MSG_STRTST 1
 #define I2C_MSG_SBSND 2
@@ -49,8 +55,6 @@
 #define MPU6050_MSG_PWR1_GOOD 45
 #define MPU6050_MSG_INIT_COMP 46
 
-#include "string.h"
-
 typedef union _32ToBytes
 {
   float RealNum;
@@ -67,15 +71,16 @@ class PacketMaker
 	unsigned long _recLeftFree;
 	unsigned long _recBytesNum;
 	bool _isMessageReady;
+	DataKeeper _dataKeeper;
 
 	//Common
 	_32ToBytes _converter;
 	unsigned int packet_size;
 
 	//Funcs
-	void _translateMessage(char* message, char *messageText, size_t textSize);
+	void _processPackageType(char* message);
 	char* _decodeMessage(char);
-	char* _get_data_description(char message_header);
+	void _processDataDescription(char messageHeader, unsigned int data);
 
 public:
 	PacketMaker();
@@ -87,7 +92,7 @@ public:
 	//Funcs
 	void ClearBuf();
 	bool PushReceived(char*, unsigned long);
-	char* GetRecMessage();
+	void ProcessRecMessage();
 };
 
 #endif

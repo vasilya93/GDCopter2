@@ -6,38 +6,9 @@
 
 #define MAIN_ANSWER_SIZE 50
 
-class ConsoleWriter : public SerialCommSubscribable, public CommManagerSubscribable
-{
-public:
-	ConsoleWriter() : SerialCommSubscribable(), CommManagerSubscribable()
-	{}
-
-	~ConsoleWriter(){}
-
-	void SerialBytesReceivedHandler(char* bytes, unsigned int bytesNum)
-	{
-		printf("%s", bytes);
-	}
-
-	void SerialBaudrateChangedHandler(unsigned long baudrate)
-	{
-	}
-
-	void SerialNothingReceivedHandler()
-	{
-	}
-
-	void MessageReadyHandler(char* message)
-	{
-		printf("%s", message);
-	}
-};
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	CommManager commManager;
-	ConsoleWriter consoleWriter;
-	commManager.AttachHandlerHost(&consoleWriter);
 
 	char answer[MAIN_ANSWER_SIZE];
 	wchar_t port[MAIN_ANSWER_SIZE];

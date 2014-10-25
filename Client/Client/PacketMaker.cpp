@@ -56,26 +56,22 @@ bool PacketMaker::PushReceived(char* bytes, unsigned long bytesNum)
 	return true;
 }
 
-char* PacketMaker::GetRecMessage()
+void PacketMaker::ProcessRecMessage()
 {
-	if (!_isMessageReady)
-	{
-		return "Message is not ready!!!";
+	if (!_isMessageReady) {
+		return;
 	}
 
 	char *message = new char[packet_size];
 	unsigned long leftToEnd = PAKMAK_BUFSIZE - _recFirstIn;
-	if (leftToEnd >= packet_size)
-	{
+	if (leftToEnd >= packet_size) {
 		memcpy_s(message, packet_size, &(_recBuf[_recFirstIn]), packet_size);
 		_recFirstIn += packet_size;
-		if (leftToEnd == packet_size)
-		{
+
+		if (leftToEnd == packet_size) {
 			_recFirstIn = 0;
 		}
-	}
-	else
-	{
+	} else {
 		memcpy_s(message, packet_size, &(_recBuf[_recFirstIn]), leftToEnd);
 		memcpy_s(&(message[leftToEnd]), PAKMAK_BUFSIZE - leftToEnd, _recBuf, PAKMAK_BUFSIZE - leftToEnd);
 		_recFirstIn = PAKMAK_BUFSIZE - leftToEnd;
@@ -84,58 +80,50 @@ char* PacketMaker::GetRecMessage()
 	_recLeftFree += packet_size;
 	_recBytesNum -= packet_size;
 
-	if (_recBytesNum < packet_size)
-	{
+	if (_recBytesNum < packet_size)	{
 		_isMessageReady = false;
 	}
 
-	size_t textSize = 100;
-	char* messageText = new char[textSize];
-
 	if (packet_size == 1) {
-		sprintf_s(messageText, textSize, "Message: %s\r\n", _decodeMessage(*message));
+		printf("Message: %s\r\n", _decodeMessage(*message));
 	} else {
-		_translateMessage(message, messageText, textSize);
+		_processPackageType(message);
 	}
 
 	delete message;
-	return messageText;
-
-	//вызывающий эту функцию должен удалить messageText;
 }
 
 //-----------------------------Private functions -----------------------------
 
-void PacketMaker::_translateMessage(char* message, char *messageText, size_t textSize)
+void PacketMaker::_processPackageType(char* message)
 {
 	switch (message[0] & ~MSNR_DD_MASK) {
 	case MSNR_MT_BYTE:
-		sprintf_s(messageText, textSize, "Message: %s\r\n", _decodeMessage(message[4]));
+		printf("Message: %s\r\n", _decodeMessage(message[4]));
 		break;
 	case MSNR_MT_WORD:
 		_converter.Bytes[0] = message[4];
 		_converter.Bytes[1] = message[3];
 		_converter.Bytes[2] = 0;
 		_converter.Bytes[3] = 0;
-		sprintf_s(messageText, textSize, "%s: %u\r\n", _get_data_description(message[0]), _converter.Integer);
+		_processDataDescription(message[0], _converter.Integer);
 		break;
 	case MSNR_MT_DWRD:
 		_converter.Bytes[0] = message[4];
 		_converter.Bytes[1] = message[3];
 		_converter.Bytes[2] = message[2];
 		_converter.Bytes[3] = message[1];
-		sprintf_s(messageText, textSize, "%s: %u\r\n", _get_data_description(message[0]), _converter.Integer);
+		_processDataDescription(message[0], _converter.Integer);
 		break;
 	default:
-		sprintf_s(messageText, textSize, "Message header is not defined\r\n");
+		printf("ProcessPackageType: error, unknown package type %u!\n", message[0] & ~MSNR_DD_MASK);
 		break;
 	}
 }
 
 char* PacketMaker::_decodeMessage(char code)
 {
-	switch (code)
-	{
+	switch (code) {
 	case I2C_MSG_STRTST:
 		return "I2C start set";
 	case I2C_MSG_SBSND:
@@ -202,21 +190,38 @@ char* PacketMaker::_decodeMessage(char code)
 	}
 }
 
-char* PacketMaker::_get_data_description(char message_header)
+void PacketMaker::_processDataDescription(char messageHeader, unsigned int data)
 {
-	message_header = message_header & MSNR_DD_MASK;
-	switch (message_header) {
+	messageHeader = messageHeader & MSNR_DD_MASK;
+	switch (messageHeader) {
 	case MSNR_DD_ACCELX:
-		return "Acceleration x";
+		_dataKeeper.setAccelX(data);
+		break;
 	case MSNR_DD_ACCELY:
-		return "Acceleration y";
+		_dataKeeper.setAccelY(data);
+		break;
 	case MSNR_DD_ACCELZ:
-		return "Acceleration z";
+		_dataKeeper.setAccelZ(data);
+		break;
+	case MSNR_DD_ANGSPEEDX:
+		_dataKeeper.setAngSpeedX(data);
+		break;
+	case MSNR_DD_ANGSPEEDY:
+		_dataKeeper.setAngSpeedY(data);
+		break;
+	case MSNR_DD_ANGSPEEDZ:
+		_dataKeeper.setAngSpeedZ(data);
+		break;
 	case MSNR_DD_WHOAMI:
-		return "who am i value";
+		printf("who am i value: %u\n", data);
+		break;
 	case MSNR_DD_PWRMGMT1:
-		return "PWRMGMT1 value";
+		printf("PWRMGMT1 value: %u\n", data);
+		break;
 	default:
-		return "Unknown data";
+		printf("ProcessDataDescription: error, unknown data description: %u\n",
+		       messageHeader & MSNR_DD_MASK);
+		printf("ProcessDataDescription: data: %u\n", data);
+		break;
 	}
 }
