@@ -8,6 +8,14 @@
 #define MSNR_MT_WORD 2
 #define MSNR_MT_DWRD 3
 
+#define MSNR_DD_MASK 0xFC
+#define MSNR_DD_NONE 0x04
+#define MSNR_DD_ACCELX 0x08
+#define MSNR_DD_ACCELY 0x0C
+#define MSNR_DD_ACCELZ 0x10
+#define MSNR_DD_WHOAMI 0x14
+#define MSNR_DD_PWRMGMT1 0x18
+
 #define I2C_MSG_STRTST 1
 #define I2C_MSG_SBSND 2
 #define I2C_MSG_ADSND 3
@@ -21,12 +29,25 @@
 #define I2C_MSG_RXNE1 11
 #define I2C_MSG_AF 12
 #define I2C_MSG_STRTFL 13
+#define I2C_MSG_ERR 14
 
 #define MS5611_MSG_NODATA 31
 #define MS5611_MSG_SENST1REQ 32
 #define MS5611_MSG_SENST1 33
 #define MS5611_MSG_OFFT1REQ 34
 #define MS5611_MSG_OFFT1 35
+
+#define MPU6050_MSG_WHOAMI 36
+#define MPU6050_MSG_GETNEXTINIT 37
+#define MPU6050_MSG_PROCOPRES 38
+#define MPU6050_MSG_GETNEXTREG 39
+#define MPU6050_MSG_ACCELX 40
+#define MPU6050_MSG_ACCELY 41
+#define MPU6050_MSG_ACCELZ 42
+#define MPU6050_MSG_PWR1 43
+#define MPU6050_MSG_PWR1_BAD 44
+#define MPU6050_MSG_PWR1_GOOD 45
+#define MPU6050_MSG_INIT_COMP 46
 
 #include "string.h"
 
@@ -49,10 +70,12 @@ class PacketMaker
 
 	//Common
 	_32ToBytes _converter;
+	unsigned int packet_size;
 
 	//Funcs
-	char* _translateMessage(char*);
+	void _translateMessage(char* message, char *messageText, size_t textSize);
 	char* _decodeMessage(char);
+	char* _get_data_description(char message_header);
 
 public:
 	PacketMaker();
