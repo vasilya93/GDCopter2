@@ -212,6 +212,15 @@ void PacketMaker::_processDataDescription(char messageHeader, unsigned int data)
 	case MSNR_DD_ANGSPEEDZ:
 		_dataKeeper.setAngSpeedZ(data);
 		break;
+	case MSNR_DD_GYROXOFF:
+		printf("gyro x offset value: %u\n", data);
+		break;
+	case MSNR_DD_GYROYOFF:
+		printf("gyro y offset value: %u\n", data);
+		break;
+	case MSNR_DD_GYROZOFF:
+		printf("gyro z offset value: %u\n", data);
+		break;
 	case MSNR_DD_WHOAMI:
 		printf("who am i value: %u\n", data);
 		break;

@@ -24,9 +24,9 @@ void DataKeeper::_checkPrintAccel() {
 			_renewState &= ~(DATAKEEPER_ACCELX_RENEWED |
 			                 DATAKEEPER_ACCELY_RENEWED |
 							 DATAKEEPER_ACCELZ_RENEWED);
-			printf("accelx: %7u ", _accelX);
-			printf("accely: %7u ", _accelY);
-			printf("accelz: %7u\n", _accelZ);
+			//printf("accelx: %7u ", _accelX);
+			//printf("accely: %7u ", _accelY);
+			//printf("accelz: %7u\n", _accelZ);
 	}
 }
 
