@@ -34,6 +34,8 @@ public:
 	void setAngSpeedX(uint16_t angspeedX);
 	void setAngSpeedY(uint16_t angspeedY);
 	void setAngSpeedZ(uint16_t angspeedZ);
+
+	void Clear();
 };
 
 #endif

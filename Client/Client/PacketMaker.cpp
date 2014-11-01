@@ -20,6 +20,8 @@ void PacketMaker::ClearBuf()
 	_recLeftFree = PAKMAK_BUFSIZE;
 	_recBytesNum = 0;
 	_isMessageReady = false;
+
+	_dataKeeper.Clear();
 }
 
 bool PacketMaker::PushReceived(char* bytes, unsigned long bytesNum)

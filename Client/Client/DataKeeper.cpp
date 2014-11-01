@@ -2,15 +2,7 @@
 #include "DataKeeper.h"
 
 DataKeeper::DataKeeper() {
-	_accelX = 0;
-	_accelY = 0;
-	_accelZ = 0;
-
-	_angspeedX = 0;
-	_angspeedX = 0;
-	_angspeedX = 0;
-
-	_renewState = 0;
+	Clear();
 }
 
 DataKeeper::~DataKeeper() {
@@ -78,4 +70,17 @@ void DataKeeper::setAngSpeedZ(uint16_t angspeedZ) {
 	_angspeedZ = angspeedZ;
 	_renewState |= DATAKEEPER_ANGSPEEDZ_RENEWED;
 	_checkPrintAngSpeed();
+}
+
+void DataKeeper::Clear()
+{
+	_accelX = 0;
+	_accelY = 0;
+	_accelZ = 0;
+
+	_angspeedX = 0;
+	_angspeedX = 0;
+	_angspeedX = 0;
+
+	_renewState = 0;
 }

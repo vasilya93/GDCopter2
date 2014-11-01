@@ -20,3 +20,8 @@ void CommManager::SerialBytesReceivedHandler(char* bytes, unsigned int bytesNum)
 		_packetMaker.ProcessRecMessage();
 	}
 }
+
+void CommManager::ClearBuf()
+{
+	_packetMaker.ClearBuf();
+}
