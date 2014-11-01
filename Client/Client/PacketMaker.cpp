@@ -213,13 +213,22 @@ void PacketMaker::_processDataDescription(char messageHeader, unsigned int data)
 		_dataKeeper.setAngSpeedZ(data);
 		break;
 	case MSNR_DD_GYROXOFF:
-		printf("gyro x offset value: %u\n", data);
+		printf("gyro x offset value: %hd\n", (int16_t) data);
 		break;
 	case MSNR_DD_GYROYOFF:
-		printf("gyro y offset value: %u\n", data);
+		printf("gyro y offset value: %hd\n", (int16_t) data);
 		break;
 	case MSNR_DD_GYROZOFF:
-		printf("gyro z offset value: %u\n", data);
+		printf("gyro z offset value: %hd\n", (int16_t) data);
+		break;
+	case MSNR_DD_ACCELXOFF:
+		printf("accel x offset value: %hd\n", (int16_t) data);
+		break;
+	case MSNR_DD_ACCELYOFF:
+		printf("accel y offset value: %hd\n", (int16_t) data);
+		break;
+	case MSNR_DD_ACCELZOFF:
+		printf("accel z offset value: %hd\n", (int16_t) data);
 		break;
 	case MSNR_DD_WHOAMI:
 		printf("who am i value: %u\n", data);

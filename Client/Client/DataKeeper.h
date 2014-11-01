@@ -11,13 +11,13 @@
 #define DATAKEEPER_ANGSPEEDZ_RENEWED 0x20
 
 class DataKeeper {
-	unsigned int _accelX;
-	unsigned int _accelY;
-	unsigned int _accelZ;
+	uint16_t _accelX;
+	uint16_t _accelY;
+	uint16_t _accelZ;
 	
-	unsigned int _angspeedX;
-	unsigned int _angspeedY;
-	unsigned int _angspeedZ;
+	uint16_t _angspeedX;
+	uint16_t _angspeedY;
+	uint16_t _angspeedZ;
 
 	unsigned int _renewState;
 
@@ -27,13 +27,13 @@ public:
 	DataKeeper();
 	~DataKeeper();
 
-	void setAccelX(unsigned int accelX);
-	void setAccelY(unsigned int accelY);
-	void setAccelZ(unsigned int accelZ);
+	void setAccelX(uint16_t accelX);
+	void setAccelY(uint16_t accelY);
+	void setAccelZ(uint16_t accelZ);
 
-	void setAngSpeedX(unsigned int angspeedX);
-	void setAngSpeedY(unsigned int angspeedY);
-	void setAngSpeedZ(unsigned int angspeedZ);
+	void setAngSpeedX(uint16_t angspeedX);
+	void setAngSpeedY(uint16_t angspeedY);
+	void setAngSpeedZ(uint16_t angspeedZ);
 };
 
 #endif
