@@ -27,6 +27,15 @@
 #define MSNR_DD_ACCELXOFF 0x34
 #define MSNR_DD_ACCELYOFF 0x38
 #define MSNR_DD_ACCELZOFF 0x3C
+#define MSNR_DD_DCM11 0x40
+#define MSNR_DD_DCM12 0x44
+#define MSNR_DD_DCM13 0x48
+#define MSNR_DD_DCM21 0x4C
+#define MSNR_DD_DCM22 0x50
+#define MSNR_DD_DCM23 0x54
+#define MSNR_DD_DCM31 0x58
+#define MSNR_DD_DCM32 0x5C
+#define MSNR_DD_DCM33 0x60
 
 #define I2C_MSG_STRTST 1
 #define I2C_MSG_SBSND 2
@@ -86,7 +95,7 @@ class PacketMaker
 	//Funcs
 	void _processPackageType(char* message);
 	char* _decodeMessage(char);
-	void _processDataDescription(char messageHeader, unsigned int data);
+	void _processDataDescription(char messageHeader);
 
 public:
 	PacketMaker();

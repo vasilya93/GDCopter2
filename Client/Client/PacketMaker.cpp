@@ -108,14 +108,14 @@ void PacketMaker::_processPackageType(char* message)
 		_converter.Bytes[1] = message[3];
 		_converter.Bytes[2] = 0;
 		_converter.Bytes[3] = 0;
-		_processDataDescription(message[0], _converter.Integer);
+		_processDataDescription(message[0]);
 		break;
 	case MSNR_MT_DWRD:
 		_converter.Bytes[0] = message[4];
 		_converter.Bytes[1] = message[3];
 		_converter.Bytes[2] = message[2];
 		_converter.Bytes[3] = message[1];
-		_processDataDescription(message[0], _converter.Integer);
+		_processDataDescription(message[0]);
 		break;
 	default:
 		printf("ProcessPackageType: error, unknown package type %u!\n", message[0] & ~MSNR_DD_MASK);
@@ -192,56 +192,83 @@ char* PacketMaker::_decodeMessage(char code)
 	}
 }
 
-void PacketMaker::_processDataDescription(char messageHeader, unsigned int data)
+void PacketMaker::_processDataDescription(char messageHeader)
 {
 	messageHeader = messageHeader & MSNR_DD_MASK;
 	switch (messageHeader) {
 	case MSNR_DD_ACCELX:
-		_dataKeeper.setAccelX(data);
+		_dataKeeper.setAccelX(_converter.Integer);
 		break;
 	case MSNR_DD_ACCELY:
-		_dataKeeper.setAccelY(data);
+		_dataKeeper.setAccelY(_converter.Integer);
 		break;
 	case MSNR_DD_ACCELZ:
-		_dataKeeper.setAccelZ(data);
+		_dataKeeper.setAccelZ(_converter.Integer);
 		break;
 	case MSNR_DD_ANGSPEEDX:
-		_dataKeeper.setAngSpeedX(data);
+		_dataKeeper.setAngSpeedX(_converter.Integer);
 		break;
 	case MSNR_DD_ANGSPEEDY:
-		_dataKeeper.setAngSpeedY(data);
+		_dataKeeper.setAngSpeedY(_converter.Integer);
 		break;
 	case MSNR_DD_ANGSPEEDZ:
-		_dataKeeper.setAngSpeedZ(data);
+		_dataKeeper.setAngSpeedZ(_converter.Integer);
+		break;
+	case MSNR_DD_DCM11:
+		_dataKeeper.setDCM11(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM12:
+		_dataKeeper.setDCM12(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM13:
+		_dataKeeper.setDCM13(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM21:
+		_dataKeeper.setDCM21(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM22:
+		_dataKeeper.setDCM22(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM23:
+		_dataKeeper.setDCM23(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM31:
+		_dataKeeper.setDCM31(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM32:
+		_dataKeeper.setDCM32(_converter.RealNum);
+		break;
+	case MSNR_DD_DCM33:
+		_dataKeeper.setDCM33(_converter.RealNum);
 		break;
 	case MSNR_DD_GYROXOFF:
-		printf("gyro x offset value: %hd\n", (int16_t) data);
+		printf("gyro x offset value: %hd\n", (int16_t) _converter.Integer);
 		break;
 	case MSNR_DD_GYROYOFF:
-		printf("gyro y offset value: %hd\n", (int16_t) data);
+		printf("gyro y offset value: %hd\n", (int16_t) _converter.Integer);
 		break;
 	case MSNR_DD_GYROZOFF:
-		printf("gyro z offset value: %hd\n", (int16_t) data);
+		printf("gyro z offset value: %hd\n", (int16_t) _converter.Integer);
 		break;
 	case MSNR_DD_ACCELXOFF:
-		printf("accel x offset value: %hd\n", (int16_t) data);
+		printf("accel x offset value: %hd\n", (int16_t) _converter.Integer);
 		break;
 	case MSNR_DD_ACCELYOFF:
-		printf("accel y offset value: %hd\n", (int16_t) data);
+		printf("accel y offset value: %hd\n", (int16_t) _converter.Integer);
 		break;
 	case MSNR_DD_ACCELZOFF:
-		printf("accel z offset value: %hd\n", (int16_t) data);
+		printf("accel z offset value: %hd\n", (int16_t) _converter.Integer);
 		break;
 	case MSNR_DD_WHOAMI:
-		printf("who am i value: %u\n", data);
+		printf("who am i value: %u\n", _converter.Integer);
 		break;
 	case MSNR_DD_PWRMGMT1:
-		printf("PWRMGMT1 value: %u\n", data);
+		printf("PWRMGMT1 value: %u\n", _converter.Integer);
 		break;
 	default:
 		printf("ProcessDataDescription: error, unknown data description: %u\n",
 		       messageHeader & MSNR_DD_MASK);
-		printf("ProcessDataDescription: data: %u\n", data);
+		printf("ProcessDataDescription: data: %u\n", _converter.Integer);
 		break;
 	}
 }
