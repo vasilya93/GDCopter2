@@ -70,6 +70,9 @@
 #define MPU6050_MSG_PWR1_GOOD 45
 #define MPU6050_MSG_INIT_COMP 46
 
+#define SENSFUS_MSG_ACC_INSIDE 51
+#define SENSFUS_MSG_GYRO_INSIDE 52
+
 typedef union _32ToBytes
 {
   float RealNum;

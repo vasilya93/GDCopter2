@@ -186,6 +186,10 @@ char* PacketMaker::_decodeMessage(char code)
 		return "MPU6050 bad data from PWR1 received";
 	case MPU6050_MSG_INIT_COMP:
 		return "MPU6050 initialization is completed";
+	case SENSFUS_MSG_ACC_INSIDE:
+		return "accelerometer data loaded into fusion alg";
+	case SENSFUS_MSG_GYRO_INSIDE:
+		return "gyro data loaded into fusion alg";
 	default:
 		return "Unknown code";
 		break;

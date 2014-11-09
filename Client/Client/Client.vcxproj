@@ -21,6 +21,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -80,7 +81,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="CommManager.h" />
+    <ClInclude Include="DataKeeper.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="PacketMaker.h" />
@@ -91,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="CommManager.cpp" />
+    <ClCompile Include="DataKeeper.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="PacketMaker.cpp" />
